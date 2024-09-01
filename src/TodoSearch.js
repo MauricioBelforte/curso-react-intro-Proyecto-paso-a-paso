@@ -1,16 +1,8 @@
 import React from 'react'
 import './TodoSearch.css';
 
-function TodoSearch() {
-  // Declaramos una variable de estado llamada "searchValue" y una función para actualizarla "setSearchValue"
-  // useState('') inicializa el estado "searchValue" con el valor string vacio '' ya que los usuarios en un principio no ven nada
-  // const [searchValue, setSearchValue] desestructura el array devuelto por useState en dos variables:
-  // searchValue: contiene el valor actual del estado (inicialmente '').
-  // setSearchValue: es una función que se usa para actualizar el valor de searchValue.
-  const [searchValue, setSearchValue] = React.useState('');
+function TodoSearch({searchValue,setSearchValue}) {
 
-  console.log("Aca esta el searchValue " + searchValue);
-  /* Esto se le podria llamar Renderizado del Input */
   return (
     <input
       placeholder="Cortar cebolla"

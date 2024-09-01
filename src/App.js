@@ -4,6 +4,8 @@ import { TodoList } from './TodoList'
 import { TodoItem } from './TodoItem';
 import { CreateTodoButton } from './CreateTodoButton';
 import React from 'react'
+import { CompleteIcon } from "./CompleteIcon";
+import { DeleteIcon } from "./DeleteIcon";
 
 
 const defaultTodos = [

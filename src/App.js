@@ -17,9 +17,22 @@ const defaultTodos = [
 
 ]
 
+// localStorage.setItem('TODOS_V1',JSON.stringify(defaultTodos))
+// localStorage.removeItem('TODOS_V1');
+
 function App() {
+  const localStorageTodos = localStorage.getItem('TODOS_V1');
+  let parsedTodos;
+
+  if (!localStorageTodos) {
+    localStorage.setItem('TODOS_V1', JSON.stringify([]));
+    parsedTodos = [];
+  } else {
+    parsedTodos = JSON.parse(localStorageTodos);
+  }
+
   // Aca dentro del array estamos asignando a todos un estado inicial que proviene de defaultTodos
-  const [todos, setTodos] = React.useState(defaultTodos);
+  const [todos, setTodos] = React.useState(parsedTodos);
 
   // Declaramos una variable de estado llamada "searchValue" y una función para actualizarla "setSearchValue"
   // useState('') inicializa el estado "searchValue" con el valor string vacio '' ya que los usuarios en un principio no ven nada
@@ -32,12 +45,13 @@ function App() {
 
   //  Estados derivados
 
-  const searchedTodos = todos.filter( 
+  const searchedTodos = todos.filter(
     (todo) => {
-    const todoText = todo.text.toLocaleLowerCase(); // Este es el texto de cada item
-    const searchText = searchValue.toLocaleLowerCase(); // Este es el texto que ingresa el usuario
-    
-    return todoText.includes(searchText)} 
+      const todoText = todo.text.toLocaleLowerCase(); // Este es el texto de cada item
+      const searchText = searchValue.toLocaleLowerCase(); // Este es el texto que ingresa el usuario
+
+      return todoText.includes(searchText)
+    }
   )
 
   // Le vamos a mandar el estado a TodoCounter
@@ -46,13 +60,20 @@ function App() {
   const totalTodos = todos.length; // El total de elementos items
 
 
+  const saveTodos = (newTodos) => {
+    localStorage.setItem('TODOS_V1', JSON.stringify(newTodos))
+    setTodos(newTodos);
+
+  };
+
+
   const completeTodo = (text) => {
     const newTodos = [...todos];  //Tenemos una copia del estado del array todos
     const todoIndex = newTodos.findIndex(
       (todo) => todo.text === text    // Aca vemos si cada elemento del arreglo newTodos es igual al texto que viene como parametro
     );
-    newTodos[todoIndex].completed = true  ; // Queremos cambiarle la propiedad completed a true al elemento que tenemos en el indice
-    setTodos(newTodos);  // Seteamos con el nuevo array
+    newTodos[todoIndex].completed = true; // Queremos cambiarle la propiedad completed a true al elemento que tenemos en el indice
+    saveTodos(newTodos);  // Seteamos con el nuevo array
 
   };
 
@@ -63,9 +84,9 @@ function App() {
       (todo) => todo.text === text    // Aca vemos si cada elemento del arreglo newTodos es igual al texto que viene como parametro
     );
 
-    newTodos.splice(todoIndex,1); // Eliminamos el elemento en ese indice y modifica el array original newTodos
-    
-    setTodos(newTodos); // Seteamos con el nuevo array
+    newTodos.splice(todoIndex, 1); // Eliminamos el elemento en ese indice y modifica el array original newTodos
+
+    saveTodos(newTodos); // Seteamos con el nuevo array
 
   };
 
@@ -81,7 +102,7 @@ function App() {
 
       <TodoList>
         {searchedTodos.map(todo => (
-          <TodoItem key={todo.text} text={todo.text} completed={todo.completed} onComplete={() => completeTodo(todo.text) } onDelete={() => deleteTodo(todo.text)}/>
+          <TodoItem key={todo.text} text={todo.text} completed={todo.completed} onComplete={() => completeTodo(todo.text)} onDelete={() => deleteTodo(todo.text)} />
         ))}
 
       </TodoList>

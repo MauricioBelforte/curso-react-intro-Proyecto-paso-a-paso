@@ -8,11 +8,8 @@ function CompleteIcon({completed,onComplete}) {
             color= {completed ? 'green' : 'grey'}
             onClick={onComplete}
         />
-
-    );
-    
+    );  
 }
-
 
 
 export {CompleteIcon};

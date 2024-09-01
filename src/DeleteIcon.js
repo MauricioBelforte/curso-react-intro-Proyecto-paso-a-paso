@@ -7,13 +7,9 @@ function DeleteIcon({onDelete}) {
             type= 'delete' // Aca pasamos como prop el type para que TodoIcon lo use
             color= 'grey'
             onClick={onDelete}
-    
          />
     )
-    
-    
 }
-
 
 
 export {DeleteIcon};

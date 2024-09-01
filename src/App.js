@@ -43,8 +43,31 @@ function App() {
   const completedTodos = todos.filter(todo => todo.completed).length;  // Devuelve la cantidade de elementos que son true
   const totalTodos = todos.length; // El total de elementos items
 
-  console.log("Aca esta el searchValue " + searchValue);
-  /* Esto se le podria llamar Renderizado del Input */
+
+  const completeTodo = (text) => {
+    const newTodos = [...todos];  //Tenemos una copia del estado del array todos
+    const todoIndex = newTodos.findIndex(
+      (todo) => todo.text === text    // Aca vemos si cada elemento del arreglo newTodos es igual al texto que viene como parametro
+    );
+    newTodos[todoIndex].completed = true  ; // Queremos cambiarle la propiedad completed a true al elemento que tenemos en el indice
+    setTodos(newTodos);  // Seteamos con el nuevo array
+
+  };
+
+
+  const deleteTodo = (text) => {
+    const newTodos = [...todos];  //Tenemos una copia del estado del array todos
+    const todoIndex = newTodos.findIndex(
+      (todo) => todo.text === text    // Aca vemos si cada elemento del arreglo newTodos es igual al texto que viene como parametro
+    );
+
+    newTodos.splice(todoIndex,1); // Eliminamos el elemento en ese indice y modifica el array original newTodos
+    
+    setTodos(newTodos); // Seteamos con el nuevo array
+
+  };
+
+
   return (
     <>
       <TodoCounter completed={completedTodos} total={totalTodos} />
@@ -56,7 +79,7 @@ function App() {
 
       <TodoList>
         {searchedTodos.map(todo => (
-          <TodoItem key={todo.text} text={todo.text} completed={todo.completed} />
+          <TodoItem key={todo.text} text={todo.text} completed={todo.completed} onComplete={() => completeTodo(todo.text) } onDelete={() => deleteTodo(todo.text)}/>
         ))}
 
       </TodoList>

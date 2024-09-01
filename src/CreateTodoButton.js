@@ -4,24 +4,6 @@ import './CreateTodoButton.css';
 
 
 
-function TodoClick(){
-    let [state, setState] = React.useState(0);
-    return(
-        <>
-            <p>
-                Diste click {state} veces    
-            </p>
-            <button onClick={()=> {
-                setState(state++)
-            }
-
-            }>
-                Click
-            </button>
-        </>
-    )
-}
-
 function CreateTodoButton() {
     return (
         <button 

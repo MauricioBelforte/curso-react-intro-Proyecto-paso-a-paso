@@ -1,11 +1,10 @@
 import { TodoCounter } from './TodoCounter'
 import { TodoSearch } from './TodoSearch'
 import { TodoList } from './TodoList'
-
-
 import { TodoItem } from './TodoItem';
 import { CreateTodoButton } from './CreateTodoButton';
 import React from 'react'
+
 
 const defaultTodos = [
   { text: 'Cortar cebolla', completed: true },
@@ -28,7 +27,17 @@ function App() {
   const [searchValue, setSearchValue] = React.useState('');
 
 
+
   //  Estados derivados
+
+  const searchedTodos = todos.filter( 
+    (todo) => {
+    const todoText = todo.text.toLocaleLowerCase(); // Este es el texto de cada item
+    const searchText = searchValue.toLocaleLowerCase(); // Este es el texto que ingresa el usuario
+    
+    return todoText.includes(searchText)} 
+  )
+
   // Le vamos a mandar el estado a TodoCounter
 
   const completedTodos = todos.filter(todo => todo.completed).length;  // Devuelve la cantidade de elementos que son true
@@ -46,7 +55,7 @@ function App() {
       />
 
       <TodoList>
-        {defaultTodos.map(todo => (
+        {searchedTodos.map(todo => (
           <TodoItem key={todo.text} text={todo.text} completed={todo.completed} />
         ))}
 

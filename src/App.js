@@ -7,7 +7,7 @@ import React from 'react'
 import { CompleteIcon } from "./CompleteIcon";
 import { DeleteIcon } from "./DeleteIcon";
 
-
+/* 
 const defaultTodos = [
   { text: 'Cortar cebolla', completed: true },
   { text: 'Tomar curso de React.js', completed: false },
@@ -16,23 +16,41 @@ const defaultTodos = [
   { text: 'Usar estados derivados', completed: true }
 
 ]
-
+ */
 // localStorage.setItem('TODOS_V1',JSON.stringify(defaultTodos))
 // localStorage.removeItem('TODOS_V1');
 
-function App() {
-  const localStorageTodos = localStorage.getItem('TODOS_V1');
-  let parsedTodos;
+function useLocalStorage(itemName, initialValue) {
 
-  if (!localStorageTodos) {
-    localStorage.setItem('TODOS_V1', JSON.stringify([]));
-    parsedTodos = [];
+  const localStorageItem = localStorage.getItem(itemName);
+
+
+  let parsedItem;
+
+  if (!localStorageItem) {
+    localStorage.setItem(itemName, JSON.stringify(initialValue));
+    parsedItem = initialValue;
   } else {
-    parsedTodos = JSON.parse(localStorageTodos);
+    parsedItem = JSON.parse(localStorageItem);
   }
 
+
+  const [item, setItem] = React.useState(parsedItem);
+
+  const saveItem = (newItem) => {
+    localStorage.setItem(itemName, JSON.stringify(newItem))
+    setItem(newItem);
+
+  };
+
+  return[item,saveItem];
+}
+
+
+function App() {
+
   // Aca dentro del array estamos asignando a todos un estado inicial que proviene de defaultTodos
-  const [todos, setTodos] = React.useState(parsedTodos);
+  const [todos, saveTodos] = useLocalStorage('TODOS_V1', []);
 
   // Declaramos una variable de estado llamada "searchValue" y una función para actualizarla "setSearchValue"
   // useState('') inicializa el estado "searchValue" con el valor string vacio '' ya que los usuarios en un principio no ven nada
@@ -60,11 +78,6 @@ function App() {
   const totalTodos = todos.length; // El total de elementos items
 
 
-  const saveTodos = (newTodos) => {
-    localStorage.setItem('TODOS_V1', JSON.stringify(newTodos))
-    setTodos(newTodos);
-
-  };
 
 
   const completeTodo = (text) => {
